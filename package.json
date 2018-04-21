@@ -1,0 +1,8 @@
+{
+  "name": "bot-de-pruebas",
+  "version": "1.0.0",
+  "description": "Mi primer bot de Discord. Aun esta en pruebas",
+  "main": "bot.js",
+  "author": "Beksun",
+  "dependencies": {}
+}
