@@ -1,0 +1,10 @@
+{
+  "name": "bot-de-pruebas",
+  "version": "1.0.0",
+  "description": "Mi primer bot de Discord. Aun esta en pruebas",
+  "main": "index.js",
+  "author": "Beksun",
+  "prefix": "!",
+  "token": "NDM3MzM5NTE0MjIyOTM2MDY0.Db0nuQ.7ixfm_X6AvQnv-dGM4xYXRs9JFc",
+  "dependencies": {}
+}
