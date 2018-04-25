@@ -4,11 +4,21 @@
   Autor: Beksun
 */
 
+// imports the system modules
+const fs = require('fs');
+
 // require the discord.js module
 const Discord = require('discord.js');
 
-// create a new Discord client
+// create a new Discord client and command files
 const client = new Discord.Client();
+client.commands = new Discord.Collection();
+const commandFiles = fs.readdirSync('./commands');
+
+for (const file of commandFiles) {
+    const command = require(`./commands/${file}`);
+    client.commands.set(command.name, command);
+}
 
 // add a configuration file
 const { name, version, description, main, author, prefix, token, dependencies } = require('./package.json');
@@ -21,15 +31,21 @@ client.on('ready', () => {
     console.log('Ready!');
 });
 
-// add responses to messages
+// add responses to messages sent by users
 client.on('message', message => {
-    if (message.content === `${prefix}ping`) {
-	    // send back "Pong" to the channel the message was sent in
-	    message.channel.send('Pong');
+    if (!message.content.startsWith(prefix) || message.author.bot) return;
+
+	const args = message.content.slice(prefix.length).split(/ +/);
+	const command = args.shift().toLowerCase();
+
+	if (!client.commands.has(command)) return;
+
+	try {
+		client.commands.get(command).execute(message, args);
 	}
-	else if (message.content === `${prefix}server`) {
-	    // send back total info about the server
-		message.channel.send(`Server name: ${message.guild.name}\nTotal members: ${message.guild.memberCount}\nDate of creation: ${message.guild.createdAt}\nRegion of the server: ${message.guild.region}`);
+	catch (error) {
+		console.error(error);
+		message.reply('there was an error trying to execute that command!');
 	}
 });
 
